@@ -1,3 +1,15 @@
+CREATE TABLE IF NOT EXISTS user ( 
+ id varchar(40) primary key,
+ passwd varchar(40) not null
+);
+
+CREATE TABLE IF NOT EXISTS notice ( 
+ seq integer IDENTITY,
+ title varchar(100) not null,
+ content varchar(300) not null,
+ userId varchar(40) not null
+);
+
 INSERT INTO user (id, passwd) VALUES ('admin', '1234');
 
 INSERT INTO notice (title, content, userId) VALUES ('유승옥·정아름·이연·예정화…머슬글래머가 뜬다', '지난 23일 방송된 JTBC ‘썰전’에서는 ‘머슬글래머’를 놓고 예능심판자 김구라 강용석 박지윤 허지웅 이윤석이 대화를 나눴다. 김구라는 “예전에 여성들은 소녀시대 수영 씨 같은 다리를 갖고 싶어하지 않았냐”면서 이제는 달라진 여성들의 워너비 몸매를 꼽았다.', 'admin');
