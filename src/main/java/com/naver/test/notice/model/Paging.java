@@ -1,6 +1,7 @@
 package com.naver.test.notice.model;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 public class Paging {
 	private Integer page = 1;
@@ -24,5 +25,9 @@ public class Paging {
 
 	public PageRequest getPageRequest() {
 		return new PageRequest(page - 1, count);
+	}
+
+	public PageRequest getSortedPageRequest(Sort sort) {
+		return new PageRequest(page - 1, count, sort);
 	}
 }

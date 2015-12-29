@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +38,10 @@ public class NoticeController {
 
 	@RequestMapping({ "", "/", "list" })
 	public String list(Model model, Paging paging) {
-		Page<Notice> findAll = noticeRepository.findAll(paging.getPageRequest());
+		Sort sort = new Sort(new Order(Direction.DESC, "seq"));
+
+		Page<Notice> findAll = noticeRepository.findAll(paging.getSortedPageRequest(sort));
+
 		List<Notice> noticeList = findAll.getContent();
 
 		logger.info("noticeList size : " + noticeList.size());
