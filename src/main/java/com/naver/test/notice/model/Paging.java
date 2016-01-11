@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 public class Paging {
 	private Integer page = 1;
 	private Integer count = 10;
+	private Integer offset = 0;
 
 	public Integer getPage() {
 		return page;
@@ -21,6 +22,14 @@ public class Paging {
 
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+
+	public Integer getOffset() {
+		return (page - 1) * count;
+	}
+
+	public void setOffset(Integer offset) {
+		this.offset = offset;
 	}
 
 	public PageRequest getPageRequest() {

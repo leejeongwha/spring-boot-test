@@ -7,10 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.WebUtils;
 
 import com.naver.test.notice.annotation.AuthCheck;
+import com.naver.test.notice.mapper.NoticeMapper;
 import com.naver.test.notice.model.Notice;
 import com.naver.test.notice.model.Paging;
-import com.naver.test.notice.repository.NoticeRepository;
 
 @Controller
 @RequestMapping(value = "notice")
@@ -29,7 +25,7 @@ public class NoticeController {
 	private static final Logger logger = LoggerFactory.getLogger(NoticeController.class);
 
 	@Autowired
-	private NoticeRepository noticeRepository;
+	private NoticeMapper noticeMapper;
 
 	@RequestMapping(value = "form")
 	public String form() {
@@ -38,11 +34,7 @@ public class NoticeController {
 
 	@RequestMapping({ "", "/", "list" })
 	public String list(Model model, Paging paging) {
-		Sort sort = new Sort(new Order(Direction.DESC, "seq"));
-
-		Page<Notice> findAll = noticeRepository.findAll(paging.getSortedPageRequest(sort));
-
-		List<Notice> noticeList = findAll.getContent();
+		List<Notice> noticeList = noticeMapper.getNoticeList(paging);
 
 		logger.info("noticeList size : " + noticeList.size());
 
@@ -53,7 +45,7 @@ public class NoticeController {
 
 	@RequestMapping(value = "/{seq}")
 	public String search(Model model, @PathVariable("seq") int seq) {
-		Notice notice = noticeRepository.getOne(seq);
+		Notice notice = noticeMapper.getNotice(seq);
 
 		model.addAttribute("notice", notice);
 
@@ -65,7 +57,8 @@ public class NoticeController {
 	public String save(HttpServletRequest request, Notice notice) {
 		String userId = (String) WebUtils.getSessionAttribute(request, "admin");
 		notice.setUserId(userId);
-		noticeRepository.save(notice);
+		noticeMapper.save(notice);
+
 		return "redirect:/notice/list";
 	}
 }

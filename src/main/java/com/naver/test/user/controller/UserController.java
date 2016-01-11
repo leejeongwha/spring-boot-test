@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.WebUtils;
 
+import com.naver.test.user.mapper.UserMapper;
 import com.naver.test.user.model.User;
-import com.naver.test.user.repository.UserRepository;
 
 @Controller
 @RequestMapping(value = "login")
@@ -20,7 +20,7 @@ public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserMapper userMapper;
 
 	@RequestMapping(value = "form")
 	public String form() {
@@ -31,7 +31,7 @@ public class UserController {
 	public String save(HttpServletRequest request, User user) {
 		String returnURL = "redirect:/login/form";
 
-		User admin = userRepository.getOne(user.getId());
+		User admin = userMapper.getUser(user.getId());
 
 		if (admin != null && StringUtils.equals(user.getPasswd(), admin.getPasswd())) {
 			WebUtils.setSessionAttribute(request, "admin", admin.getId());
