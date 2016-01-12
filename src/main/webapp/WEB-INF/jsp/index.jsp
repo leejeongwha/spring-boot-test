@@ -10,8 +10,9 @@
 Spring Framework를 사용하여 관리자만 게시 가능한 공지사항 구현하기
 1. 신규 프로젝트 생성
 	A. File > New > Spring Starter Project를 선택하여 New Spring Starter Project 팝업 띄우기
-	B. Project name 을 sample_notice로 설정하고 dependency는 HSQLDB, Actuator, WEB 선택
+	B. Project name 을 sample_notice로 설정하고 war packaging 선택 및 dependency는 AOP, HSQLDB, Actuator, WEB, JDBC 선택
 	C. pom.xml 에 org.apache.tomcat.embed.tomcat-embed-jasper, javax.servlet.jstl 추가
+	D. pom.xml 에 org.mybatis.mybatis 및 org.mybatis.mybatis-spring 추가
 	D. 메인클래스 SpringBootServletInitializer 상속받도록 설정
 	E. application.properties에 spring.mvc.view.prefix: /WEB-INF/jsp/, spring.mvc.view.suffix: .jsp 추가
 	
