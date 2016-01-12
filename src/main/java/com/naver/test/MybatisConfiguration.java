@@ -9,10 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableTransactionManagement
 @MapperScan(basePackages = "com.naver.test.*.mapper")
 public class MybatisConfiguration {
 	@Bean

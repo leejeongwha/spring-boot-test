@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = { "com.naver.test.*.repository" })
+@EnableJpaRepositories(basePackages = { "com.naver.test.*.repository" }, transactionManagerRef = "jpaTransaction")
 @Import(value = MybatisConfiguration.class)
 public class PersistenceConfiguration {
 	@Bean
@@ -40,7 +40,7 @@ public class PersistenceConfiguration {
 
 	@Bean
 	@Qualifier(value = "jpaTransaction")
-	public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+	public PlatformTransactionManager jpaTransaction(EntityManagerFactory entityManagerFactory) {
 		JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
 		jpaTransactionManager.setEntityManagerFactory(entityManagerFactory);
 		return jpaTransactionManager;
