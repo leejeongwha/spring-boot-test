@@ -1,4 +1,4 @@
-package com.naver.test.school.controller;
+package com.naver.test.hello.controller;
 
 import java.util.Map;
 
