@@ -11,9 +11,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HelloController {
-	@Value("${application.message:Hello World}")
+	@Value("${application.message}")
 	private String message = "Hello World";
 
+	/**
+	 * name 파라미터가 없을 경우 400
+	 * 
+	 * @param name
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/hello")
 	public String welcome(@RequestParam String name, Model model) throws Exception {
 		model.addAttribute("time", new Date());
