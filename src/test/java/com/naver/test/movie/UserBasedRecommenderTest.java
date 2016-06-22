@@ -27,6 +27,8 @@ public class UserBasedRecommenderTest {
 	}
 
 	/**
+	 * https://mahout.apache.org/users/recommender/userbased-5-minutes.html
+	 * 
 	 * user based recommender
 	 * 
 	 * @throws Exception
