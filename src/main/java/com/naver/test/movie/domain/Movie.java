@@ -8,6 +8,8 @@ import javax.persistence.Id;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Movie {
 	@Id
@@ -16,6 +18,7 @@ public class Movie {
 
 	private String title;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date releaseDate;
 
 	public Integer getId() {
