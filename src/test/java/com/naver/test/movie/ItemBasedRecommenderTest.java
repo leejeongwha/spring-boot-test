@@ -94,8 +94,8 @@ public class ItemBasedRecommenderTest {
 		for (LongPrimitiveArrayIterator items = (LongPrimitiveArrayIterator) dataModel.getItemIDs(); items.hasNext();) {
 			long itemId = items.nextLong();
 			// 10이하의 itemId만 출력
-			if (itemId < 10L) {
-				List<RecommendedItem> recommendations = recommender.mostSimilarItems(itemId, 5);
+			if (itemId < 2L) {
+				List<RecommendedItem> recommendations = recommender.mostSimilarItems(itemId, 10);
 
 				for (RecommendedItem recommendedItem : recommendations) {
 					System.out.println(itemId + "," + recommendedItem.getItemID() + "," + recommendedItem.getValue());
