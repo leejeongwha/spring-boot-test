@@ -18,6 +18,8 @@
 	<h3>맛집 관리</h3>
 	
 	<form id="userForm" role="form" method="post" action="/dining/save">
+	<input type="hidden" name="id" id="id" value="${restaurant.id}">
+	
 	<table class="table table-bordered table-striped">
 		<colgroup>
 			<col width="10%">

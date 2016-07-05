@@ -51,7 +51,7 @@
 		<c:forEach var="restaurant" items="${restaurantList}">
 			<tr>
 				<td>${restaurant.id}</td>
-				<td>${restaurant.name}</td>
+				<td><a href="/dining/${restaurant.id}">${restaurant.name}</a></td>
 				<td>${restaurant.tag}</td>
 				<td>${restaurant.address}</td>
 				<td>${restaurant.tel}</td>
