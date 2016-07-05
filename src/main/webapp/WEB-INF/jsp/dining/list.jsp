@@ -9,8 +9,6 @@
 <title>맛집 리스트</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -59,15 +57,29 @@
 		</c:forEach>
 		</tbody>
 	</table>
+	<ul id="pagination" class="pagination-sm"></ul>
 </div>
-
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="/js/jquery.twbsPagination.min.js"></script>
 <script type="text/javascript">
-//검색버튼
-jQuery("#button_search").click(function(event){
-	event.preventDefault();
+
+$(document).ready(function(){
+	//페이징
+	$('#pagination').twbsPagination({
+        totalPages: ${totalPages},
+        visiblePages: 10,
+        href: '?page={{number}}'
+    });
 	
-	jQuery("#form_search").submit();
-});
+	//검색버튼
+	jQuery("#button_search").click(function(event){
+		event.preventDefault();
+		
+		jQuery("#form_search").submit();
+	});
+})
+
 </script>
 </body>
 </html>

@@ -1,11 +1,12 @@
 package com.naver.test.dining.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,15 +29,16 @@ public class DiningController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(Model model, Restaurant restaurant) {
-		List<Restaurant> restaurantList = new ArrayList<>();
+	public String list(Model model, Restaurant restaurant, @PageableDefault(size = 10) Pageable pageable) {
+		Page<Restaurant> restaurantList = null;
 		if (StringUtils.isNotEmpty(restaurant.getName())) {
-			restaurantList = restaurantRepository.findByNameContaining(restaurant.getName());
+			restaurantList = restaurantRepository.findByNameContaining(restaurant.getName(), pageable);
 		} else {
-			restaurantList = restaurantRepository.findAll();
+			restaurantList = restaurantRepository.findAll(pageable);
 		}
 
-		model.addAttribute("restaurantList", restaurantList);
+		model.addAttribute("totalPages", restaurantList.getTotalPages());
+		model.addAttribute("restaurantList", restaurantList.getContent());
 		model.addAttribute("searchParam", restaurant.getName());
 		return "dining/list";
 	}
