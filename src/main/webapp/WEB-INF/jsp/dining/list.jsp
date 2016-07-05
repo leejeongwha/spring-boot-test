@@ -16,7 +16,7 @@
 <div class="container">
 	<h3>맛집 리스트</h3>
 	
-	<form id="form_search" role="form" method="get" action="/dining/search">
+	<form id="form_search" role="form" method="get" action="/dining">
  		<div class="row">
   			<div class="col-md-11 form-group">
   				<div class="form-inline">

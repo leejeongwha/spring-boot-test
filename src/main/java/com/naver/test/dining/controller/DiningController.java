@@ -1,7 +1,9 @@
 package com.naver.test.dining.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,22 +27,16 @@ public class DiningController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(Model model) {
-		List<Restaurant> restaurantList = restaurantRepository.findAll();
-		model.addAttribute("restaurantList", restaurantList);
-		return "dining/list";
-	}
+	public String list(Model model, Restaurant restaurant) {
+		List<Restaurant> restaurantList = new ArrayList<>();
+		if (StringUtils.isNotEmpty(restaurant.getName())) {
+			restaurantList = restaurantRepository.findByNameContaining(restaurant.getName());
+		} else {
+			restaurantList = restaurantRepository.findAll();
+		}
 
-	/**
-	 * 맛집 조회
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = "search", method = RequestMethod.GET)
-	public String search(Model model, Restaurant restaurant) {
-		List<Restaurant> restaurantList = restaurantRepository.findByNameContaining(restaurant.getName());
 		model.addAttribute("restaurantList", restaurantList);
+		model.addAttribute("searchParam", restaurant.getName());
 		return "dining/list";
 	}
 
