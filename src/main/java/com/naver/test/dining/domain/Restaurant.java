@@ -15,6 +15,15 @@ public class Restaurant {
 	@Column
 	private String name;
 
+	@Column
+	private String tag;
+
+	@Column
+	private String address;
+
+	@Column
+	private String tel;
+
 	public Long getId() {
 		return id;
 	}
@@ -29,6 +38,30 @@ public class Restaurant {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
 }
