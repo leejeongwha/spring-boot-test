@@ -1,6 +1,7 @@
 package com.naver.test.user.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.util.WebUtils;
 
 import com.naver.test.user.mapper.UserMapper;
 import com.naver.test.user.model.User;
@@ -28,16 +28,18 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "submit", method = RequestMethod.POST)
-	public String save(HttpServletRequest request, User user) {
+	public String save(HttpServletResponse response, User user) {
 		String returnURL = "redirect:/login/form";
 
 		User admin = userMapper.getUser(user.getId());
 
 		if (admin != null && StringUtils.equals(user.getPasswd(), admin.getPasswd())) {
-			WebUtils.setSessionAttribute(request, "admin", admin.getId());
+			// 쿠키 생성
+			Cookie cookie = new Cookie("noticeAdmin", user.getId());
+			cookie.setPath("/");
+			response.addCookie(cookie);
+
 			returnURL = "redirect:/notice/list";
-		} else {
-			request.getSession().removeAttribute("admin");
 		}
 
 		return returnURL;

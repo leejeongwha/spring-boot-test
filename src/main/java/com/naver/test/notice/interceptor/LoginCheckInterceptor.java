@@ -1,5 +1,6 @@
 package com.naver.test.notice.interceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,18 +32,29 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throws Exception {
 		try {
-			logger.info("session check : " + arg0.getSession().getAttribute("admin"));
+			if (!(arg2 instanceof HandlerMethod)) {
+				return true;
+			}
+
 			AuthCheck authCheck = ((HandlerMethod) arg2).getMethodAnnotation(AuthCheck.class);
 
 			if (authCheck == null) {
 				return true;
-			} else {
-				// login이라는 세션key를 가진 정보가 널일경우 로그인페이지로 이동
-				if (arg0.getSession().getAttribute("admin") == null) {
-					arg1.sendRedirect("/login/form");
-					return false;
+			}
+
+			Cookie[] cookies = arg0.getCookies();
+
+			for (Cookie c : cookies) {
+				if (c.getName().equals("noticeAdmin") && c.getValue().equals("admin")) {
+					logger.info("admin check success : " + c.getValue());
+					return true;
 				}
 			}
+
+			logger.info("admin check fail");
+			arg1.sendRedirect("/login/form");
+			return false;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

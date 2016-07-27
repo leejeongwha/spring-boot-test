@@ -2,6 +2,7 @@ package com.naver.test.notice.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -12,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.util.WebUtils;
 
 import com.naver.test.notice.annotation.AuthCheck;
 import com.naver.test.notice.mapper.NoticeMapper;
@@ -55,7 +55,15 @@ public class NoticeController {
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@AuthCheck
 	public String save(HttpServletRequest request, Notice notice) {
-		String userId = (String) WebUtils.getSessionAttribute(request, "admin");
+		String userId = null;
+
+		Cookie[] cookies = request.getCookies();
+		for (Cookie c : cookies) {
+			if (c.getName().equals("noticeAdmin")) {
+				userId = c.getValue();
+			}
+		}
+
 		notice.setUserId(userId);
 		noticeMapper.save(notice);
 
