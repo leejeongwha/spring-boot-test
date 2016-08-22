@@ -2,17 +2,24 @@ package com.naver.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = SpringBootTestApplication.class)
-@WebAppConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SpringBootTestApplicationTests {
+
+	@Autowired
+	private RedisTemplate<String, String> redisTemplate;
 
 	@Test
 	public void contextLoads() {
+		// redisTemplate.opsForValue().set("user:name", "leejeongwha");
+
+		System.out.println(redisTemplate.opsForValue().get("user:name"));
 	}
 
 }
