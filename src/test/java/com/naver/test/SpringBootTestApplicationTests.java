@@ -1,5 +1,6 @@
 package com.naver.test;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,14 @@ public class SpringBootTestApplicationTests {
 	private RedisTemplate<String, String> redisTemplate;
 
 	@Test
-	public void contextLoads() {
-		// redisTemplate.opsForValue().set("user:name", "leejeongwha");
+	public void text() {
+		redisTemplate.opsForValue().set("user:name", "leejeongwha");
+
+		Assert.assertEquals(redisTemplate.opsForValue().get("user:name"), "leejeongwha");
+
+		redisTemplate.opsForValue().append("user:name", "hello");
+
+		Assert.assertEquals(redisTemplate.opsForValue().get("user:name"), "leejeongwhahello");
 
 		System.out.println(redisTemplate.opsForValue().get("user:name"));
 	}
