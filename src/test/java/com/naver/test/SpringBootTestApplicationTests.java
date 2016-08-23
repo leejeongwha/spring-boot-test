@@ -12,6 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+/**
+ * 레디스 오퍼레이션 테스트
+ * 
+ * @author NAVER
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SpringBootTestApplicationTests {
@@ -20,7 +26,7 @@ public class SpringBootTestApplicationTests {
 	private RedisTemplate<String, String> redisTemplate;
 
 	@Test
-	public void text() {
+	public void value() {
 		redisTemplate.opsForValue().set("user:name", "lee");
 
 		Assert.assertEquals("lee", redisTemplate.opsForValue().get("user:name"));
