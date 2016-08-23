@@ -1,4 +1,4 @@
-package com.naver.test;
+package com.naver.test.redis;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class SpringBootTestApplicationTests {
+public class RedisOperationTests {
 
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
