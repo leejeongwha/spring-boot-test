@@ -11,12 +11,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.naver.test.redis.chat.listener.ChatMessageListener;
 
 @Configuration
 @PropertySource("classpath:application.properties")
+@EnableRedisRepositories()
 public class RedisConfiguration {
 	@Value("${spring.redis.host}")
 	private String redisHostName;
