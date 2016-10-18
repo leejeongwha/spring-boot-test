@@ -34,17 +34,37 @@ import reactor.ipc.netty.http.HttpServer;
 public class ReactorNettyServer {
 	@Bean
 	RouterFunction<?> router(PersonHandler handler) {
-		return route(GET("/"),
-				request -> Response.ok().body(BodyInserters.fromObject("Welcome to Reactor Netty Web Server")))
-						.and(route(GET("/persons"), handler::all)).and(route(GET("/persons/{id}"), handler::byId));
+		return route(GET("/"), request -> Response.ok().body(BodyInserters.fromObject("Welcome to Reactor Web Server")))
+				.and(route(GET("/persons"), handler::all)).and(route(GET("/persons/{id}"), handler::byId))
+				.filter((request, next) -> {
+					System.out.println("Before handler invocation: " + request.path());
+					Response<?> response = next.handle(request);
+					Object body = response.body();
+					System.out.println("After handler invocation: " + body);
+					return response;
+				});
 	}
 
+	/**
+	 * Netty 혹은 Undertow사용가능(리턴타입 변경 필요)
+	 * 
+	 * @param router
+	 * @return
+	 */
 	@Bean
 	HttpServer server(RouterFunction<?> router) {
 		HttpHandler handler = RouterFunctions.toHttpHandler(router);
 		HttpServer httpServer = HttpServer.create(8080);
 		httpServer.start(new ReactorHttpHandlerAdapter(handler));
 		return httpServer;
+
+		// HttpHandler handler = RouterFunctions.toHttpHandler(router);
+		// UndertowHttpHandlerAdapter adapter = new
+		// UndertowHttpHandlerAdapter(handler);
+		// Undertow server = Undertow.builder().addHttpListener(8080,
+		// "localhost").setHandler(adapter).build();
+		// server.start();
+		// return server;
 	}
 
 	@Component
