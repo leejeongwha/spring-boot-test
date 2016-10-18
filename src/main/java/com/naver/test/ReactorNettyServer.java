@@ -34,7 +34,9 @@ import reactor.ipc.netty.http.HttpServer;
 public class ReactorNettyServer {
 	@Bean
 	RouterFunction<?> router(PersonHandler handler) {
-		return route(GET("/persons"), handler::all).and(route(GET("/persons/{id}"), handler::byId));
+		return route(GET("/"),
+				request -> Response.ok().body(BodyInserters.fromObject("Welcome to Reactor Netty Web Server")))
+						.and(route(GET("/persons"), handler::all)).and(route(GET("/persons/{id}"), handler::byId));
 	}
 
 	@Bean
