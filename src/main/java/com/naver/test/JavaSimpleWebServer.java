@@ -44,8 +44,7 @@ public class JavaSimpleWebServer {
 			out.println("HTTP/1.0 200");
 			out.println("Content-type: text/html");
 			out.println("Server-name: myserver");
-			String response = "<html><head><title>My Web Server</title></head>"
-					+ "<body><h1>Welcome to my Web Server!</h1></body>" + "</html>";
+			String response = "Welcome to Java Simple Web Server";
 			out.println("Content-length: " + response.length());
 			out.println("");
 			out.println(response);
