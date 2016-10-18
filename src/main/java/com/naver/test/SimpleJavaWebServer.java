@@ -14,7 +14,7 @@ import org.apache.commons.io.IOUtils;
 /**
  * @author NAVER 자바로 구현한 웹서버
  */
-public class JavaSimpleWebServer {
+public class SimpleJavaWebServer {
 	private static final int fNumberOfThreads = 100;
 	private static final Executor fThreadPool = Executors.newFixedThreadPool(fNumberOfThreads);
 
@@ -44,7 +44,7 @@ public class JavaSimpleWebServer {
 			out.println("HTTP/1.0 200");
 			out.println("Content-type: text/html");
 			out.println("Server-name: myserver");
-			String response = "Welcome to Java Simple Web Server";
+			String response = "Welcome to Simple Java Web Server";
 			out.println("Content-length: " + response.length());
 			out.println("");
 			out.println(response);
