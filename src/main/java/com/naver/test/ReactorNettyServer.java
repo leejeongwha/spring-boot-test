@@ -36,7 +36,7 @@ public class ReactorNettyServer {
 	RouterFunction<?> router(PersonHandler handler) {
 		return route(GET("/"), request -> Response.ok().body(BodyInserters.fromObject("Welcome to Reactor Web Server")))
 				.and(route(GET("/persons"), handler::all)).and(route(GET("/persons/{id}"), handler::byId))
-				.filter((request, next) -> {
+				.and(route(GET("/randomNumbers"), handler::randomNumbers)).filter((request, next) -> {
 					System.out.println("Before handler invocation: " + request.path());
 					Response<?> response = next.handle(request);
 					Object body = response.body();
@@ -84,6 +84,11 @@ public class ReactorNettyServer {
 					.map(person -> Mono.fromFuture(person))
 					.map(mono -> Response.ok().body(BodyInserters.fromPublisher(mono, Person.class)))
 					.orElseThrow(() -> new IllegalStateException("Oops!!"));
+		}
+
+		Response<Flux<Double>> randomNumbers(Request request) {
+			Flux<Double> flux = Flux.range(1, 10).delayMillis(500).map(i -> Math.random());
+			return Response.ok().body(BodyInserters.fromServerSentEvents(flux, Double.class));
 		}
 	}
 }
