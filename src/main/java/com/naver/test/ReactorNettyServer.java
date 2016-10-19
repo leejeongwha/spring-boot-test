@@ -73,7 +73,7 @@ public class ReactorNettyServer {
 		private PersonRepository personRepository;
 
 		Response<Flux<Person>> all(Request request) {
-			Flux<Person> flux = Flux.fromStream(personRepository.all());
+			Flux<Person> flux = Flux.fromStream(personRepository.all()).log();
 			return Response.ok().body(BodyInserters.fromPublisher(flux, Person.class));
 
 		}
