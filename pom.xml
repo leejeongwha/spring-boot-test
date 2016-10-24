@@ -29,6 +29,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web-reactive</artifactId>
+			<version>5.0.0.M2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.0.0.M2</version>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
