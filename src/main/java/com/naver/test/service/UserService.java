@@ -22,6 +22,13 @@ public class UserService {
 
 	private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
+	/**
+	 * subscribeOn의 스케줄러 설정을 통해서 어느 쓰레드에서 수행될지 결정 (현재는 아래 3번의 http 통신이 동시에 이루어
+	 * 지는 것을 볼 수 있음)
+	 * 
+	 * @param login
+	 * @return
+	 */
 	public GithubUser getUser(String login) {
 		Observable<RawUser> getRawUser = getRawUserObservable(login);
 		Observable<RawUser[]> getFollowers = getFollowersObservable(login);
