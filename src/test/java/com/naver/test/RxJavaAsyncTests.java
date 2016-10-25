@@ -15,7 +15,7 @@ public class RxJavaAsyncTests {
 	}
 
 	@Test
-	public void defer_비동기_테스트() {
+	public void defer_비동기_테스트() throws InterruptedException {
 		System.out.println(Thread.currentThread().getName() + ", create observable");
 		Observable<String> observable = Observable.defer(new Func0<Observable<String>>() {
 			@Override
@@ -27,7 +27,7 @@ public class RxJavaAsyncTests {
 		System.out.println(Thread.currentThread().getName() + ", do subscribe");
 		// computation 스레드에서 defer function이 실행
 		// 새로운 스레드에서 Subscriber로 이벤트가 전달.
-		observable.subscribeOn(Schedulers.computation()).observeOn(Schedulers.computation())
+		observable.subscribeOn(Schedulers.computation()).observeOn(Schedulers.newThread())
 				.subscribe(new Subscriber<String>() {
 					@Override
 					public void onNext(String text) {
@@ -46,14 +46,18 @@ public class RxJavaAsyncTests {
 				});
 
 		System.out.println(Thread.currentThread().getName() + ", after subscribe");
+
+		Thread.sleep(Long.MAX_VALUE);
 	}
 
 	/**
 	 * subscribeOn은 누군가 Observable에 구독이 이루어지는 thread를 지정하며, observeOn은
 	 * Observable이 이벤트를 전파할때, 즉 관찰자에게 전달될때 사용되는 thread
+	 * 
+	 * @throws InterruptedException
 	 */
 	@Test
-	public void defer_비동기_테스트_2() {
+	public void defer_비동기_테스트_2() throws InterruptedException {
 		System.out.println(Thread.currentThread().getName() + ", create observable");
 		Observable<String> observable = Observable.defer(new Func0<Observable<String>>() {
 			@Override
@@ -64,8 +68,8 @@ public class RxJavaAsyncTests {
 		});
 		System.out.println(Thread.currentThread().getName() + ", do subscribe");
 
-		Observable<String> observable2 = observable.observeOn(Schedulers.newThread())
-				.subscribeOn(Schedulers.computation()).map(new Func1<String, String>() {
+		Observable<String> observable2 = observable.subscribeOn(Schedulers.computation())
+				.observeOn(Schedulers.newThread()).map(new Func1<String, String>() {
 					@Override
 					public String call(String text) {
 						System.out.println(Thread.currentThread().getName() + ", map");
@@ -91,5 +95,7 @@ public class RxJavaAsyncTests {
 		});
 
 		System.out.println(Thread.currentThread().getName() + ", after subscribe");
+
+		Thread.sleep(Long.MAX_VALUE);
 	}
 }

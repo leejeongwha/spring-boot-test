@@ -139,13 +139,11 @@ public class RxJavaObservableTests {
 	 */
 	@Test
 	public void interval() throws InterruptedException {
-		while (true) {
-			Observable.interval(1, TimeUnit.SECONDS).subscribe(count -> {
-				System.out.println("onNext : " + new Date());
-			});
+		Observable.interval(1, TimeUnit.SECONDS).subscribe(count -> {
+			System.out.println("onNext : " + new Date());
+		});
 
-			Thread.sleep(Long.MAX_VALUE);
-		}
+		Thread.sleep(Long.MAX_VALUE);
 	}
 
 	/**
@@ -155,15 +153,13 @@ public class RxJavaObservableTests {
 	 */
 	@Test
 	public void timer() throws InterruptedException {
-		while (true) {
-			System.out.println("start : " + new Date());
-			Observable.timer(10, TimeUnit.SECONDS).observeOn(Schedulers.computation()).subscribe(
-					count -> System.out.println("onNext : " + new Date()),
-					e -> System.out.println("onError : " + new Date()),
-					() -> System.out.println("onCompleted : " + new Date()));
+		System.out.println("start : " + new Date());
+		Observable.timer(10, TimeUnit.SECONDS).observeOn(Schedulers.computation()).subscribe(
+				count -> System.out.println("onNext : " + new Date()),
+				e -> System.out.println("onError : " + new Date()),
+				() -> System.out.println("onCompleted : " + new Date()));
 
-			Thread.sleep(Long.MAX_VALUE);
-		}
+		Thread.sleep(Long.MAX_VALUE);
 	}
 
 	/**
