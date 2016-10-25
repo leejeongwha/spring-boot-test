@@ -59,6 +59,7 @@
 		    <version>3.0</version>
 		</dependency>
 		
+		<!-- RxJava -->
 		<dependency>
             <groupId>io.reactivex</groupId>
             <artifactId>rxjava</artifactId>
