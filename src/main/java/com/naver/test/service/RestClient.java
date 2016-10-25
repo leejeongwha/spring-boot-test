@@ -4,7 +4,6 @@ import static java.lang.String.format;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,8 +18,15 @@ public class RestClient {
 	public static final String API_GITHUB_FOLLOWERS = API_GITHUB_USERS + "/followers";
 	public static final String API_GITHUB_REPOS = API_GITHUB_USERS + "/repos";
 
-	@Autowired
-	private RestTemplate restTemplate;
+	private final RestTemplate restTemplate;
+
+	public RestClient() {
+		this(new RestTemplate());
+	}
+
+	public RestClient(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
 
 	public RawUser getUser(String login) {
 		log.info("Get user {}", login);
