@@ -29,6 +29,7 @@ public class SpringBootTestApplicationTests {
 
 	@Before
 	public void setup() {
+		// 스프링에서 제공하는 web reactive를 위한 client
 		this.webClient = new WebClient(new ReactorClientHttpConnector());
 	}
 

@@ -26,7 +26,7 @@ class SampleDataCLR implements CommandLineRunner {
 
 	@Override
 	public void run(String... arg0) throws Exception {
-		// 데이터 생성
+		// 초기 데이터 생성
 		Stream.of("Stephane Maldini", "Arjen Poutsma", "Rossen Stoyanchev", "Sebastien Deleuze", "Josh Long")
 				.forEach(name -> personRepository.save(new Person(name, new Random().nextInt(100))));
 

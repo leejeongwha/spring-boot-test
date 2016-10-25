@@ -72,6 +72,12 @@ public class ReactorNettyServer {
 		@Autowired
 		private PersonRepository personRepository;
 
+		/**
+		 * log를 통해서 비동기 요청을 알 수 있음 병렬로도 수행 가능
+		 * 
+		 * @param request
+		 * @return
+		 */
 		Response<Flux<Person>> all(Request request) {
 			Flux<Person> flux = Flux.fromStream(personRepository.all()).log();
 			return Response.ok().body(BodyInserters.fromPublisher(flux, Person.class));
@@ -86,8 +92,15 @@ public class ReactorNettyServer {
 					.orElseThrow(() -> new IllegalStateException("Oops!!"));
 		}
 
+		/**
+		 * fromServerSentEvents 대신 fromPublisher로 변경하면 blocking 이벤트로 변경 가능
+		 * 
+		 * @param request
+		 * @return
+		 */
 		Response<Flux<Double>> randomNumbers(Request request) {
 			Flux<Double> flux = Flux.range(1, 10).delayMillis(500).map(i -> Math.random());
+
 			return Response.ok().body(BodyInserters.fromServerSentEvents(flux, Double.class));
 		}
 	}
