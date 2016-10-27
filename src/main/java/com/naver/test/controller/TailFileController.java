@@ -31,6 +31,9 @@ public class TailFileController {
 		return "success";
 	}
 
+	/**
+	 * rxjava-file을 이용한 tail -f 기능 샘플
+	 */
 	@PostConstruct
 	public void postConstruct() {
 		Runnable task2 = () -> {
