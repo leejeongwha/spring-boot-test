@@ -45,10 +45,6 @@ public class RestController {
 		futureList.add(userAsyncService.getFollowersObservable(login));
 		futureList.add(userAsyncService.getReposObservable(login));
 
-		while (!userAsyncService.checkFutureListComplete(futureList)) {
-			Thread.sleep(10);
-		}
-
 		return new GithubUser((RawUser) futureList.get(0).get(), (List<RawUser>) futureList.get(1).get(),
 				(List<Repository>) futureList.get(2).get());
 	}

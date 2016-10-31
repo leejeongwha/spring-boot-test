@@ -31,14 +31,4 @@ public class UserAsyncService {
 	public Future<List<Repository>> getReposObservable(String login) {
 		return new AsyncResult<List<Repository>>(Arrays.asList(restClient.getRepositories(login)));
 	}
-
-	public boolean checkFutureListComplete(List<Future> futureList) {
-		for (Future future : futureList) {
-			if (!future.isDone()) {
-				return false;
-			}
-		}
-
-		return true;
-	}
 }
