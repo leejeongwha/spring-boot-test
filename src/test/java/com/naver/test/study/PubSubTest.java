@@ -23,6 +23,13 @@ public class PubSubTest {
 	public void setUp() throws Exception {
 	}
 
+	/**
+	 * Publisher : 데이터를 발생시킴
+	 * 
+	 * Subscriber : 데이터를 받음
+	 * 
+	 * Subscription : 위 둘 사이에 실제 구독이 한번 일어나는 액션을 담고 있음
+	 */
 	@Test
 	public void test() {
 		// Publisher <- Observable
@@ -31,7 +38,7 @@ public class PubSubTest {
 
 		Publisher<Integer> p = new Publisher<Integer>() {
 			@Override
-			public void subscribe(Subscriber subscriber) {
+			public void subscribe(Subscriber<? super Integer> subscriber) {
 				Iterator<Integer> it = itr.iterator();
 
 				subscriber.onSubscribe(new Subscription() {
@@ -46,8 +53,8 @@ public class PubSubTest {
 									break;
 								}
 							}
-						} catch (RuntimeException e) {
-							subscriber.onError(e);
+						} catch (Throwable t) {
+							subscriber.onError(t);
 						}
 					}
 
