@@ -1,8 +1,5 @@
 package com.naver.test.notice.model;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-
 public class Paging {
 	private Integer page = 1;
 	private Integer count = 10;
@@ -30,13 +27,5 @@ public class Paging {
 
 	public void setOffset(Integer offset) {
 		this.offset = offset;
-	}
-
-	public PageRequest getPageRequest() {
-		return new PageRequest(page - 1, count);
-	}
-
-	public PageRequest getSortedPageRequest(Sort sort) {
-		return new PageRequest(page - 1, count, sort);
 	}
 }

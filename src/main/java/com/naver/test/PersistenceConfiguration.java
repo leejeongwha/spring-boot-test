@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = "com.naver.test.*.mapper")
+@MapperScan(basePackages = "com.naver.test.**.mapper")
 public class PersistenceConfiguration {
 	@Bean
 	public DataSource dataSource() {
@@ -32,8 +32,8 @@ public class PersistenceConfiguration {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource);
 		// mybatis mapper 위치 설정
-		sessionFactory
-				.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
+		sessionFactory.setMapperLocations(
+				new PathMatchingResourcePatternResolver().getResources("classpath:mapper/**/*.xml"));
 		return sessionFactory;
 	}
 }

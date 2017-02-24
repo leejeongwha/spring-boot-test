@@ -15,7 +15,8 @@
     </select>
     
     <update id="save" parameterType="com.naver.test.notice.model.Notice">
-    	INSERT INTO notice (seq, title, content, userId) VALUES(#{seq}, #{title}, #{content}, #{userId}) 
+    	INSERT INTO notice (seq, title, content, userId) 
+    	VALUES(#{seq}, #{title}, #{content}, #{userId}) 
     	ON DUPLICATE KEY UPDATE title=#{title}, content=#{content}, userId=#{userId}
     </update>
     
