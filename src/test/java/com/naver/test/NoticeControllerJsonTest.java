@@ -1,7 +1,5 @@
 package com.naver.test;
 
-import java.io.IOException;
-
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.naver.test.notice.controller.NoticeRestController;
 import com.naver.test.notice.mapper.NoticeMapper;
 import com.naver.test.notice.model.Notice;
@@ -40,11 +37,5 @@ public class NoticeControllerJsonTest {
 				.andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("이정화")))
 				.andExpect(MockMvcResultMatchers.status().isOk());
-	}
-
-	@SuppressWarnings("unchecked")
-	protected String json(Object o) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.writeValueAsString(o);
 	}
 }
