@@ -1,4 +1,4 @@
-package com.naver.test;
+package com.naver.test.notice.controller;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;

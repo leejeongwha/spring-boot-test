@@ -9,12 +9,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.naver.test.notice.model.Notice;
 
+/**
+ * 통합 테스트
+ * 
+ * @author mac
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SpringBootTestApplicationTests {
 	Logger logger = LoggerFactory.getLogger(SpringBootTestApplicationTests.class);
