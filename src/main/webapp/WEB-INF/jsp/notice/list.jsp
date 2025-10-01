@@ -80,6 +80,38 @@
 
     <!-- Main Content -->
     <div class="container">
+        <!-- Search Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <form method="get" action="/notice/list" class="d-flex gap-2">
+                            <div class="flex-grow-1">
+                                <input type="text" name="keyword" class="form-control" 
+                                       placeholder="제목 또는 내용으로 검색하세요..." 
+                                       value="${keyword}" maxlength="50">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-search me-1"></i>검색
+                            </button>
+                            <c:if test="${not empty keyword}">
+                                <a href="/notice/list" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x-circle me-1"></i>초기화
+                                </a>
+                            </c:if>
+                        </form>
+                        <c:if test="${not empty keyword}">
+                            <div class="mt-2">
+                                <small class="text-muted">
+                                    '<strong>${keyword}</strong>' 검색 결과
+                                </small>
+                            </div>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-12">
                 <div class="card notice-card shadow-sm border-0">
