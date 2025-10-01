@@ -33,4 +33,23 @@
     <select id="getTotalCount" resultType="int">
         SELECT COUNT(*) FROM notice
     </select>
+    
+    <select id="searchNotices" resultType="com.naver.test.notice.model.Notice">
+        SELECT
+        	seq
+        	,title
+        	,content
+        	,userId
+        FROM notice
+        WHERE title LIKE CONCAT('%', #{keyword}, '%') 
+           OR content LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY seq DESC
+        LIMIT #{paging.offset}, #{paging.count}
+    </select>
+    
+    <select id="getSearchCount" resultType="int">
+        SELECT COUNT(*) FROM notice
+        WHERE title LIKE CONCAT('%', #{keyword}, '%') 
+           OR content LIKE CONCAT('%', #{keyword}, '%')
+    </select>
 </mapper> 

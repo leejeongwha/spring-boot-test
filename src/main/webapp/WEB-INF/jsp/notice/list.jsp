@@ -80,6 +80,38 @@
 
     <!-- Main Content -->
     <div class="container">
+        <!-- Search Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <form method="get" action="/notice/list" class="d-flex gap-2">
+                            <div class="flex-grow-1">
+                                <input type="text" name="keyword" class="form-control" 
+                                       placeholder="제목 또는 내용으로 검색하세요..." 
+                                       value="${keyword}" maxlength="100">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-search me-1"></i>검색
+                            </button>
+                            <c:if test="${not empty keyword}">
+                                <a href="/notice/list" class="btn btn-outline-secondary">
+                                    <i class="bi bi-x-circle me-1"></i>전체보기
+                                </a>
+                            </c:if>
+                        </form>
+                        <c:if test="${not empty keyword}">
+                            <div class="mt-2">
+                                <small class="text-muted">
+                                    '<strong>${keyword}</strong>' 검색 결과: 총 ${paging.totalCount}개
+                                </small>
+                            </div>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-12">
                 <div class="card notice-card shadow-sm border-0">
@@ -141,7 +173,7 @@
                                                 <!-- 이전 페이지 그룹 -->
                                                 <c:if test="${paging.prev}">
                                                     <li class="page-item">
-                                                        <a class="page-link" href="/notice/list?page=${paging.startPage - 1}" aria-label="Previous">
+                                                        <a class="page-link" href="/notice/list?page=${paging.startPage - 1}<c:if test='${not empty keyword}'>&keyword=${keyword}</c:if>" aria-label="Previous">
                                                             <i class="bi bi-chevron-double-left"></i>
                                                         </a>
                                                     </li>
@@ -150,7 +182,7 @@
                                                 <!-- 이전 페이지 -->
                                                 <c:if test="${paging.page > 1}">
                                                     <li class="page-item">
-                                                        <a class="page-link" href="/notice/list?page=${paging.page - 1}" aria-label="Previous">
+                                                        <a class="page-link" href="/notice/list?page=${paging.page - 1}<c:if test='${not empty keyword}'>&keyword=${keyword}</c:if>" aria-label="Previous">
                                                             <i class="bi bi-chevron-left"></i>
                                                         </a>
                                                     </li>
@@ -159,14 +191,14 @@
                                                 <!-- 페이지 번호 -->
                                                 <c:forEach var="pageNum" begin="${paging.startPage}" end="${paging.endPage}">
                                                     <li class="page-item ${pageNum == paging.page ? 'active' : ''}">
-                                                        <a class="page-link" href="/notice/list?page=${pageNum}">${pageNum}</a>
+                                                        <a class="page-link" href="/notice/list?page=${pageNum}<c:if test='${not empty keyword}'>&keyword=${keyword}</c:if>">${pageNum}</a>
                                                     </li>
                                                 </c:forEach>
                                                 
                                                 <!-- 다음 페이지 -->
                                                 <c:if test="${paging.page < paging.totalPage}">
                                                     <li class="page-item">
-                                                        <a class="page-link" href="/notice/list?page=${paging.page + 1}" aria-label="Next">
+                                                        <a class="page-link" href="/notice/list?page=${paging.page + 1}<c:if test='${not empty keyword}'>&keyword=${keyword}</c:if>" aria-label="Next">
                                                             <i class="bi bi-chevron-right"></i>
                                                         </a>
                                                     </li>
@@ -175,7 +207,7 @@
                                                 <!-- 다음 페이지 그룹 -->
                                                 <c:if test="${paging.next}">
                                                     <li class="page-item">
-                                                        <a class="page-link" href="/notice/list?page=${paging.endPage + 1}" aria-label="Next">
+                                                        <a class="page-link" href="/notice/list?page=${paging.endPage + 1}<c:if test='${not empty keyword}'>&keyword=${keyword}</c:if>" aria-label="Next">
                                                             <i class="bi bi-chevron-double-right"></i>
                                                         </a>
                                                     </li>
