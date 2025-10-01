@@ -16,4 +16,8 @@ public interface NoticeMapper {
 	List<Notice> getNoticeList(Paging paging);
 	
 	int getTotalCount();
+	
+	List<Notice> searchNotices(String keyword, Paging paging);
+	
+	int getSearchCount(String keyword);
 }
