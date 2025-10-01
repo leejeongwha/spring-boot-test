@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -23,19 +22,19 @@ import com.naver.test.school.repository.GradeRepository;
 import com.naver.test.school.repository.SchoolUserRepository;
 import com.naver.test.school.repository.SubjectRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("school")
+@RequiredArgsConstructor
 public class GradeController {
 	private static final Logger logger = LoggerFactory.getLogger(GradeController.class);
 
-	@Autowired
-	private GradeRepository gradeRepository;
+	private final GradeRepository gradeRepository;
 
-	@Autowired
-	private SubjectRepository subjectRepository;
+	private final SubjectRepository subjectRepository;
 
-	@Autowired
-	private SchoolUserRepository schoolUserRepository;
+	private final SchoolUserRepository schoolUserRepository;
 
 	/**
 	 * 성적 리스트(조회 포함)
@@ -76,7 +75,7 @@ public class GradeController {
 	@ResponseBody
 	public String delete(@PathVariable int id) {
 		try {
-			gradeRepository.delete(id);
+			gradeRepository.deleteById(id);
 		} catch (Exception e) {
 			return "fail";
 		}

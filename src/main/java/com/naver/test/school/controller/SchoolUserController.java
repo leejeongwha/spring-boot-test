@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,16 +17,17 @@ import com.naver.test.school.model.Subject;
 import com.naver.test.school.repository.SchoolUserRepository;
 import com.naver.test.school.repository.SubjectRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("school")
+@RequiredArgsConstructor
 public class SchoolUserController {
 	private static final Logger logger = LoggerFactory.getLogger(SchoolUserController.class);
 
-	@Autowired
-	private SchoolUserRepository schoolUserRepository;
+	private final SchoolUserRepository schoolUserRepository;
 
-	@Autowired
-	private SubjectRepository subjectRepository;
+	private final SubjectRepository subjectRepository;
 
 	@RequestMapping({ "/", "" })
 	public String index() {
@@ -68,7 +68,7 @@ public class SchoolUserController {
 	 */
 	@RequestMapping("users/{id}")
 	public String getSchoolUser(Model model, @PathVariable int id) {
-		SchoolUser schoolUser = schoolUserRepository.findOne(id);
+		SchoolUser schoolUser = schoolUserRepository.findById(id).orElse(null);
 
 		// test
 		List<Grade> grades = schoolUser.getGrades();
@@ -109,7 +109,7 @@ public class SchoolUserController {
 	@ResponseBody
 	public String delete(@PathVariable int id) {
 		try {
-			schoolUserRepository.delete(id);
+			schoolUserRepository.deleteById(id);
 		} catch (Exception e) {
 			return "fail";
 		}
@@ -120,10 +120,10 @@ public class SchoolUserController {
 	@RequestMapping("users/{id}/subject")
 	@ResponseBody
 	public Subject getSubject(@PathVariable int id) {
-		SchoolUser user = schoolUserRepository.findOne(id);
+		SchoolUser user = schoolUserRepository.findById(id).orElse(null);
 
 		if (user.getSubjectId() != null) {
-			return subjectRepository.findOne(user.getSubjectId());
+			return subjectRepository.findById(user.getSubjectId()).orElse(null);
 		} else {
 			return new Subject();
 		}
@@ -132,7 +132,7 @@ public class SchoolUserController {
 	@RequestMapping("users/{id}/grades")
 	@ResponseBody
 	public List<Grade> getGrades(@PathVariable int id) {
-		SchoolUser user = schoolUserRepository.findOne(id);
+		SchoolUser user = schoolUserRepository.findById(id).orElse(null);
 
 		return user.getGrades();
 	}

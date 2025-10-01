@@ -14,4 +14,6 @@ public interface NoticeMapper {
 	void save(Notice notice);
 
 	List<Notice> getNoticeList(Paging paging);
+	
+	int getTotalCount();
 }

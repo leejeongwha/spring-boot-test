@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,19 +16,19 @@ import com.naver.test.school.repository.GradeRepository;
 import com.naver.test.school.repository.SchoolUserRepository;
 import com.naver.test.school.repository.SubjectRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
 @RequestMapping("school")
+@RequiredArgsConstructor
 public class SubjectController {
 	private static final Logger logger = LoggerFactory.getLogger(SubjectController.class);
 
-	@Autowired
-	private SubjectRepository subjectRepository;
+	private final SubjectRepository subjectRepository;
 
-	@Autowired
-	private GradeRepository gradeRepository;
+	private final GradeRepository gradeRepository;
 
-	@Autowired
-	private SchoolUserRepository schoolUserRepository;
+	private final SchoolUserRepository schoolUserRepository;
 
 	/**
 	 * 과목 리스트
@@ -64,7 +63,7 @@ public class SubjectController {
 	 */
 	@RequestMapping("subjects/{id}")
 	public String getSubject(Model model, @PathVariable int id) {
-		Subject subject = subjectRepository.findOne(id);
+		Subject subject = subjectRepository.findById(id).orElse(null);
 		model.addAttribute("subject", subject);
 		return "school/subjectForm";
 	}
@@ -91,7 +90,7 @@ public class SubjectController {
 	@ResponseBody
 	public String delete(@PathVariable int id) {
 		try {
-			subjectRepository.delete(id);
+			subjectRepository.deleteById(id);
 		} catch (Exception e) {
 			logger.error("삭제실패 : {}", e.getMessage());
 			return "fail";
@@ -112,7 +111,7 @@ public class SubjectController {
 		List<Grade> gradeList = gradeRepository.findBySubjectId(subjectId);
 
 		model.addAttribute("gradeList", gradeList);
-		model.addAttribute("subjectName", subjectRepository.findOne(subjectId).getSubjectName());
+		model.addAttribute("subjectName", subjectRepository.findById(subjectId).orElse(null).getSubjectName());
 		return "school/gradeForm";
 	}
 }

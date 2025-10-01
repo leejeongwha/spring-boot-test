@@ -32,7 +32,14 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throws Exception {
 		try {
 			logger.info("session check : " + arg0.getSession().getAttribute("admin"));
-			AuthCheck authCheck = ((HandlerMethod) arg2).getMethodAnnotation(AuthCheck.class);
+			
+			// 정적 리소스나 다른 핸들러의 경우 HandlerMethod가 아닐 수 있으므로 체크
+			if (!(arg2 instanceof HandlerMethod)) {
+				return true; // 정적 리소스 등은 인증 체크를 하지 않음
+			}
+			
+			HandlerMethod handlerMethod = (HandlerMethod) arg2;
+			AuthCheck authCheck = handlerMethod.getMethodAnnotation(AuthCheck.class);
 
 			if (authCheck == null) {
 				return true;
@@ -44,7 +51,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error in LoginCheckInterceptor: ", e);
 		}
 
 		return true;
