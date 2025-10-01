@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.WebUtils;
 
 import com.naver.test.notice.annotation.AuthCheck;
@@ -34,15 +35,31 @@ public class NoticeController {
 	}
 
 	@RequestMapping({ "", "/", "list" })
-	public String list(Model model, Paging paging) {
-		// 총 게시물 개수 조회
-		int totalCount = noticeMapper.getTotalCount();
-		paging.setTotalCount(totalCount);
+	public String list(Model model, Paging paging, 
+			@RequestParam(value = "keyword", required = false) String keyword) {
 		
-		List<Notice> noticeList = noticeMapper.getNoticeList(paging);
-
-		logger.info("noticeList size : {}, totalCount : {}, currentPage : {}", 
-				noticeList.size(), totalCount, paging.getPage());
+		List<Notice> noticeList;
+		int totalCount;
+		
+		// 검색 키워드가 있는 경우
+		if (keyword != null && !keyword.trim().isEmpty()) {
+			keyword = keyword.trim();
+			totalCount = noticeMapper.getSearchCount(keyword);
+			paging.setTotalCount(totalCount);
+			noticeList = noticeMapper.searchNotices(keyword, paging);
+			
+			model.addAttribute("keyword", keyword);
+			logger.info("검색 결과 - keyword: {}, size: {}, totalCount: {}, currentPage: {}", 
+					keyword, noticeList.size(), totalCount, paging.getPage());
+		} else {
+			// 일반 목록 조회
+			totalCount = noticeMapper.getTotalCount();
+			paging.setTotalCount(totalCount);
+			noticeList = noticeMapper.getNoticeList(paging);
+			
+			logger.info("전체 목록 - size: {}, totalCount: {}, currentPage: {}", 
+					noticeList.size(), totalCount, paging.getPage());
+		}
 
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("paging", paging);
